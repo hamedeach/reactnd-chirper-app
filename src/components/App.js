@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import {handleInitialData} from '../actions/shared'
+import { connect } from 'react-redux'
+import { handleInitialData } from '../actions/shared'
+import Dashboard from './Dashboard';
 
 class App extends Component {
-   componentDidMount(){
+  componentDidMount() {
     this.props.dispatch(handleInitialData());
 
 
@@ -11,10 +12,21 @@ class App extends Component {
   render() {
     return (
       <div>
-        Starter Code
+        {this.props.loading === true ? null :
+
+          <Dashboard />
+        }
       </div>
     )
   }
 }
 
-export default connect()(App);
+// check the store authed user and return object with key loading and value true if no autheduser otherwise false
+function mapStateToProps({ authedUser }) {
+  return {
+    Loading: authedUser === null
+
+  }
+
+}
+export default connect(mapStateToProps)(App);
